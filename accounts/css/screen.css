@@ -1,0 +1,122 @@
+/* 
+    Created on : Sep 26, 2014, 1:45:24 PM
+    Author     : robertsonb
+*/
+
+/*Bring in the Normalize styles*/
+@import "normalize.css";
+
+/* --------- Site Specific Styles ---------------- */
+*{
+ box-sizing: border-box;
+}
+
+#wrapper{
+ width: 95%;
+ margin: 0 auto;
+}
+
+ul {
+list-style: none;
+padding: 0;
+}
+
+header[role] #tools{
+ position: absolute;
+ top: .05em;
+ right: 1em;
+}
+
+header[role] #tools li{
+ display: inline-block;
+ padding: .1em;
+}
+
+nav[role=navigation] li{
+ display: inline-block;
+}
+
+nav[role=navigation] li a{
+ display: block;
+ padding: .25em;
+}
+
+img{
+ max-width: 100%;
+}
+
+fieldset{
+ border: none;
+}
+
+label, input, textarea{
+ display: block;
+}
+
+input[type=email]{
+ width: 15em;
+}
+
+input[type=submit]{
+ font-weight: 700;
+ padding: .15em;
+ border-radius: .25em;
+}
+
+.notice{
+ font-weight: bold;
+ font-size: 1.5em;
+ font-style: italic;
+ color: #f00;
+}
+
+@media screen and (max-width: 480px){
+
+ h1{
+  font-size: 1.5rem;
+ }
+ #customers thead{
+ display: none;
+}
+#customers table tr{
+ display: list-item;
+ list-style: none;
+ padding: 0;
+ margin: .5em 0;
+ border: 1px solid #000;
+}
+#customers table th{
+ display: none;
+}
+ #customers table td{
+  display: block;
+  padding: .15em;
+ }
+}
+/*For large screened devices*/
+@media screen and (min-width: 481px){
+ #wrapper{
+  width: 80%;
+  max-width: 1200px;
+ }
+
+ input[type=email]{
+  width: 20em;
+ }
+
+ input[type=submit]{
+  font-weight: 700;
+  font-size: 1.3em;
+  padding: .25em;
+  border-radius: .5em;
+ }
+
+ #customers table td,
+ #customers table th{
+  padding: .15em;
+  border: 1px solid #000;
+ } 
+
+ 
+ 
+}
