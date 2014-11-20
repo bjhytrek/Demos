@@ -27,13 +27,13 @@
          <form action="." method="post" id="regform">
            <fieldset>
              <label for="firstname">Firstname:</label>
-             <input type="text" name="firstname" id="firstname">
+             <input type="text" name="firstname" id="firstname" required value="<?php echo $errors[0] ?>">
              <label for="lastname">Lastname:</label>
-             <input type="text" name="lastname" id="lastname">
+             <input type="text" name="lastname" id="lastname" required value="<?php echo $errors[1] ?>">
              <label for="emailaddress">Email Address: (this will be your user name)</label>
-             <input type="email" name="emailaddress" id="emailaddress">
+             <input type="email" name="emailaddress" id="emailaddress" required value="<?php echo $errors[2] ?>">
              <label for="password">Password:</label>
-             <input type="password" name="password" id="password">
+             <input type="password" name="password" id="password" required>
              <label>&nbsp;</label>
              <input type="submit" name="action" id="action" value="Register">
            </fieldset>

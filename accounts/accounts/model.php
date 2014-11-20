@@ -112,7 +112,6 @@ FROM customers WHERE emailAddress = :emailaddress";
   
   $stmt = $connection->prepare($sql);
   $stmt->bindValue(':emailaddress', $emailaddress,PDO::PARAM_STR);
-  $stmt->bindValue(':password', $password,PDO::PARAM_STR);
   $stmt->execute();
   $custInfo = $stmt->fetch(PDO::FETCH_ASSOC);
   $stmt->closeCursor();

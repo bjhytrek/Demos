@@ -28,9 +28,9 @@
           <form method="post" action="." id="loginfrm">
             <fieldset>
               <label for="emailaddress">Email Address</label>
-              <input type="email" name="emailaddress" id="emailaddress">
+              <input type="email" name="emailaddress" id="emailaddress" required>
               <label for="password">Password:</label>
-              <input type="password" name="password" id="password">
+              <input type="password" name="password" id="password" required>
               <label>&nbsp;</label>
               <input type="submit" name="action" id="action" value="Login">
             </fieldset>
