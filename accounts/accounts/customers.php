@@ -22,7 +22,7 @@
           <h1>Current Customers</h1>
           <?php
           if(isset($message)){
-           echo $message;
+           echo '<p class="notice">'.$message.'</p>';
           }
           ?>
           <table>

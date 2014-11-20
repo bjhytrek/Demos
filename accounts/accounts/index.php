@@ -9,9 +9,9 @@ require 'model.php';
 
 //Get a trigger key-value, regardless of how sent
 if (isset($_POST['action'])) {
- $actionsent = $_POST['action'];
+ $actionsent = filterString($_POST['action']);
 } elseif (isset($_GET['action'])) {
- $actionsent = $_GET['action'];
+ $actionsent = filterString($_GET['action']);
 }
 
 //Figure out what to do based on the request
@@ -22,41 +22,39 @@ switch ($actionsent) {
  case 'update':
   // Request for the Update form
   // Get the data for the view
-  $custID = $_GET['cust']; // Sent with link
+  $custID = filterNumber($_GET['cust']); // Sent with link
   $customerData = getCustomer($custID);
   $title = 'Update';
   include 'update.php';
   break;
- 
+
  case 'Update':
   // Process the update
-  $firstname = $_POST['firstname'];
-  $lastname = $_POST['lastname'];
-  $emailaddress = $_POST['emailaddress'];
-  $password = $_POST['password'];
-  $custID = $_POST['custID'];
+  $firstname = filterString($_POST['firstname']);
+  $lastname = filterString($_POST['lastname']);
+  $emailaddress = filterString($_POST['emailaddress']);
+  $password = filterString($_POST['password']);
+  $custID = filterNumber($_POST['custID']);
   // validate the date
-  
   // Check for errors, return to be fixed
-  
   // No errors, process it
-  $updateResult = updateCustomer($custID,$firstname, $lastname, $emailaddress, $password);
+  $updateResult = updateCustomer($custID, $firstname, $lastname, $emailaddress, $password);
   // Find out the result, notify client
-  if($updateResult){
-   $message = '<p class="notice">The update for '.$firstname.' was successful.</p>';
+  if ($updateResult) {
+   $message = '<p class="notice">The update for ' . $firstname . ' was successful.</p>';
   } else {
-   $message = '<p class="notice">Sorry, the update for '.$firstname.' failed.</p>';
+   $message = '<p class="notice">Sorry, the update for ' . $firstname . ' failed.</p>';
   }
   $customers = getCustomers();
   $title = 'Customers';
   include 'customers.php';
   break;
 
-  // ***************** Delete Events *****************
+ // ***************** Delete Events *****************
  case 'delete':
   // Request for Delete form
   // Get the data for the view
-  $custID = $_GET['cust'];
+  $custID = filterNumber($_GET['cust']);
   $customerData = getCustomer($custID);
   $title = 'Delete';
   include 'delete.php';
@@ -64,23 +62,23 @@ switch ($actionsent) {
 
  case 'Delete':
   // Process the delete
-  $firstname = $_POST['firstname'];
-  $custID = $_POST['custID'];
-  
+  $firstname = filterString($_POST['firstname']);
+  $custID = filterNumber($_POST['custID']);
+
   // process it
   $deleteResult = deleteCustomer($custID);
   // Find out the result, notify client
-  if($deleteResult){
-   $message = '<p class="notice">The delete for '.$firstname.' was successful.</p>';
+  if ($deleteResult) {
+   $message = '<p class="notice">The delete for ' . $firstname . ' was successful.</p>';
   } else {
-   $message = '<p class="notice">Sorry, the delete for '.$firstname.' failed.</p>';
+   $message = '<p class="notice">Sorry, the delete for ' . $firstname . ' failed.</p>';
   }
   $customers = getCustomers();
   $title = 'Customers';
   include 'customers.php';
   break;
 
-  // ***************** Show Customer Event *****************
+ // ***************** Show Customer Event *****************
 
  case 'customerlist':
   // Request for the existing customers
@@ -90,14 +88,17 @@ switch ($actionsent) {
   break;
 
  // ***************** Login & Logout Events *****************
-  case 'login':
+ case 'login':
   // Deliver the login view
   $title = 'Login';
   include 'login.php';
   break;
- 
+
  case 'Login':
   // Process the login attempt
+// Get Data
+  $emailaddress = filterString($_POST['emailaddress']);
+  $password = filterString($_POST['password']);
 
   break;
 
@@ -106,31 +107,42 @@ switch ($actionsent) {
 
   break;
 
-   // ***************** Registration Events *****************
+ // ***************** Registration Events *****************
 
  case 'Register':
   // Process the registration
-// Collect data
-  $firstname = $_POST['firstname'];
-  $lastname = $_POST['lastname'];
-  $emailaddress = $_POST['emailaddress'];
-  $password = $_POST['password'];
-  // validate the date
+  // Collect data
+  $firstname = filterString($_POST['firstname']);
+  $lastname = filterString($_POST['lastname']);
+  $emailaddress = filterString($_POST['emailaddress']);
+  $password = filterString($_POST['password']);
+  // validate the data
   
   // Check for errors, return to be fixed
   
-  // No errors, process it
+  // No errors found, process the registration
+  
+  // Check for existing email address
+  $existingEmail = getEmail($emailaddress);
+  if ($emailaddress) {
+   $message = "Sorry, you cannot register using the provided Email address, please choose another or try logging in.";
+   include 'register.php';
+   exit;
+  }
+
+  // No prior email address found, proceed with the registration
+  $password = hashPassword($password); // hash the password
   $insertResult = addCustomer($firstname, $lastname, $emailaddress, $password);
   // Find out the result, notify client
-  if($insertResult){
-   $message = '<p class="notice">Thank you '.$firstname.' you have been registered.</p>';
+  if ($insertResult) {
+   $message = '<p class="notice">Thank you ' . $firstname . ' you have been registered.</p>';
   } else {
-   $message = '<p class="notice">Sorry, '.$firstname.' the registration failed.</p>';
+   $message = '<p class="notice">Sorry, ' . $firstname . ' the registration failed.</p>';
   }
   include 'register.php';
   break;
- 
-  default:
+
+ default:
   // Deliver the registration form
   $title = 'Register';
   include 'register.php';

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php echo $title; ?> | 3361.BlaineRobertson.net</title>
+    <title><?php echo $title; ?> | 336Demo.BlaineRobertson.net</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/modules/head.php'; ?>
   </head>
   <body>
@@ -20,6 +20,11 @@
       <main role="main">
         <div>
           <h1>Login</h1>
+          <?php 
+          if(isset($message)){
+          echo '<p class="notice">'.$message.'</p>';
+          } ?>
+          
           <form method="post" action="." id="loginfrm">
             <fieldset>
               <label for="emailaddress">Email Address</label>

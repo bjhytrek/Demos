@@ -101,3 +101,49 @@ function deleteCustomer($custID){
     return $deleteRow;
 
 }
+
+// Login client
+function loginCustomer($emailaddress, $password){
+ $connection = conGtr2User();
+ 
+ try{
+  $sql = "SELECT customerID, firstName, lastName, emailAddress, password
+FROM customers WHERE emailAddress = :emailaddress";
+  
+  $stmt = $connection->prepare($sql);
+  $stmt->bindValue(':emailaddress', $emailaddress,PDO::PARAM_STR);
+  $stmt->bindValue(':password', $password,PDO::PARAM_STR);
+  $stmt->execute();
+  $custInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt->closeCursor();
+} catch (PDOException $exc){
+    return FALSE;
+}
+// Returns the hashed password
+return $custInfo;
+}
+
+// check for existing email as part of registration process
+function getEmail($emailAddress){
+ $connection = conGtr2User();
+ try {
+  $sql = "SELECT emailAddress FROM customers WHERE emailAddress = :emailAddress";
+  $stmt = $connection->prepare($sql);
+  $stmt->bindValue(':emailAddress', $emailAddress);
+  $stmt->execute();
+  $existingemail = $stmt->fetch(PDO::FETCH_NUM);
+  $stmt->closeCursor();
+} catch (PDOException $exc){
+    // Send to error page with message
+    $message = 'Sorry, there was an internal error with the server.';
+    $_SESSION['message'] = $message;
+    header('location: /errordocs/500.php');
+    exit;
+}
+// Note, we are not interested in the email, only if it exists
+if(!empty($existingemail)){
+   return TRUE;
+  } else {
+   return FALSE;
+  }
+}

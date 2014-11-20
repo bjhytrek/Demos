@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php echo $title; ?> | 3361.BlaineRobertson.net</title>
+    <title><?php echo $title; ?> | 336Demo.BlaineRobertson.net</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/modules/head.php'; ?>
   </head>
   <body>
@@ -22,7 +22,7 @@
           <h1>Update</h1>
           <?php
           if(isset($message)){
-           echo $message;
+           echo '<p class="notice">'.$message.'</p>';
           }
           ?>
           
