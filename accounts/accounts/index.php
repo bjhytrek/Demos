@@ -110,7 +110,7 @@ switch ($actionsent) {
  case 'Login':
   // Process the login attempt
 // Get Data
-  $emailaddress = filterString($_POST['emailaddress']);
+  $emailaddress = validateEmail($_POST['emailaddress']);
   $password = filterString($_POST['password']);
 
   // Check the data
@@ -170,7 +170,7 @@ switch ($actionsent) {
   // Collect data
   $firstname = filterString($_POST['firstname']);
   $lastname = filterString($_POST['lastname']);
-  $emailaddress = filterString($_POST['emailaddress']);
+  $emailaddress = validateEmail($_POST['emailaddress']);
   $password = filterString($_POST['password']);
   // validate the data
   if(empty($firstname) || empty($lastname) || empty($emailaddress) || empty($password)){
@@ -187,8 +187,9 @@ switch ($actionsent) {
   
   // Check for existing email address
   $existingEmail = getEmail($emailaddress);
-  if ($emailaddress) {
-   $message = "Sorry, you cannot register using the provided Email address, please choose another or try logging in.";
+  if ($existingEmail) {
+   $message = "Sorry, you cannot register using the provided Email address, please choose another or try <a href=\".?action=login\" title='Go to login page'>logging in</a>.";
+   $errors = [$firstname, $lastname, $emailaddress];
    include 'register.php';
    exit;
   }
